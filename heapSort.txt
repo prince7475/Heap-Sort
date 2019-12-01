@@ -159,6 +159,60 @@ function siftDown(idx, lastIdx, array){
 
 
 
+// Parent = Math.floor(idx - 1 / 2)
+// ChildOne = idx * 2 + 1
+// ChildTwo = idx * 2 + 2
+
+function swap(i, j, array){
+  let temp = array[i]
+  array[i] = array[j]
+  array[j] = temp
+}
+
+function buildMinHeap(array){
+  let lastParent = Math.floor(array.length - 2 / 2)
+  for(let i = lastParent; i >= 0; i--){
+      siftDown(i,array.length - 1, array)
+  }
+  return array
+}
+
+function siftDown(idx, lastIdx, array){
+  let childOneIdx = idx * 2 + 1
+  while(childOneIdx <= lastIdx){
+    let childTwoIdx = idx * 2 + 2 <= lastIdx ? idx * 2 + 2 : -1
+    let maxChild
+    if(childTwoIdx !== -1 && array[childTwoIdx] > array[childOneIdx]){
+      maxChild = childTwoIdx
+    }else {
+      maxChild = childOneIdx
+    }
+    
+    if(array[maxChild] > array[idx]){
+      swap(maxChild,idx,array)
+      idx = maxChild
+      childOneIdx = idx * 2 + 1
+    }else {
+      return 
+    }
+    
+  }
+}
+
+
+
+function heapSort(array){
+  buildMinHeap(array)
+	let startIdx = 0
+	let endIdx = array.length - 1
+	while(startIdx < endIdx){
+		swap(startIdx,endIdx,array)
+		endIdx--
+		siftDown(startIdx,endIdx,array)
+	}
+
+  return array
+}
 
 
 
